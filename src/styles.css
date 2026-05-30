@@ -185,54 +185,40 @@ a {
 }
 
 .envelope-visual-intro {
-  width: 100%;
-  height: 100%;
+  width: min(96vw, 31rem);
+  height: min(88svh, 44rem);
 }
 
-.envelope-body {
+.envelope-photo-stack {
   position: relative;
   width: 100%;
-  height: 13.2rem;
+  height: 100%;
   transform-style: preserve-3d;
-  filter: drop-shadow(0 26px 34px rgba(48, 58, 44, 0.18));
+  filter: drop-shadow(0 2rem 3.2rem rgba(48, 58, 44, 0.18));
 }
 
-.envelope-visual-intro .envelope-body {
+.envelope-photo,
+.envelope-photo-flap {
   position: absolute;
-  inset: 4.4rem 0.35rem 1.1rem;
-  width: auto;
-  height: auto;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  user-select: none;
 }
 
-.envelope-back,
-.envelope-flap,
-.envelope-pocket {
-  position: absolute;
+.envelope-photo-base {
+  z-index: 2;
+}
+
+.envelope-photo-flap {
+  z-index: 4;
   overflow: hidden;
-  border: 1px solid rgba(191, 154, 79, 0.24);
-}
-
-.envelope-back {
-  inset: 0;
-  z-index: 1;
-  border-radius: 1.35rem;
-  background:
-    radial-gradient(circle at 28% 18%, rgba(255, 255, 255, 0.58), transparent 9rem),
-    repeating-radial-gradient(circle at 30% 20%, rgba(112, 89, 48, 0.05) 0 0.7px, transparent 0.7px 2.8px),
-    linear-gradient(135deg, #fbf6e8, #e9dfc8 52%, #f4ecd9);
-  box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.78),
-    inset 0 -1.8rem 3rem rgba(153, 132, 86, 0.1);
-}
-
-.envelope-back::before,
-.envelope-pocket-bottom::before {
-  position: absolute;
-  inset: 0;
-  content: "";
-  background:
-    linear-gradient(135deg, transparent 49.5%, rgba(122, 98, 59, 0.16) 50%, transparent 50.5%),
-    linear-gradient(45deg, transparent 49.5%, rgba(122, 98, 59, 0.14) 50%, transparent 50.5%);
+  clip-path: polygon(0 0, 100% 0, 100% 57%, 50% 66%, 0 57%);
+  transform-origin: 50% 6%;
+  backface-visibility: hidden;
+  will-change: transform;
 }
 
 .envelope-note {
@@ -259,11 +245,11 @@ a {
 }
 
 .envelope-visual-intro .envelope-note {
-  right: 5%;
-  bottom: 7.4rem;
-  left: 5%;
+  right: 8%;
+  bottom: 22%;
+  left: 8%;
   z-index: 9;
-  min-height: 15.6rem;
+  min-height: 13.2rem;
   border-radius: 1.15rem;
   background:
     linear-gradient(180deg, rgba(255, 255, 253, 0.96), rgba(248, 242, 229, 0.94)),
@@ -291,141 +277,6 @@ a {
   font-family: var(--font-heading);
   font-size: 0.96rem;
   line-height: 1.35;
-}
-
-.envelope-flap {
-  top: 0;
-  right: 0;
-  left: 0;
-  z-index: 6;
-  height: 7.35rem;
-  border-radius: 1.35rem 1.35rem 0.35rem 0.35rem;
-  background:
-    linear-gradient(180deg, rgba(252, 248, 235, 0.98), rgba(202, 219, 197, 0.96)),
-    #e6ead5;
-  clip-path: polygon(0 0, 100% 0, 50% 100%);
-  transform-origin: top center;
-  backface-visibility: hidden;
-}
-
-.envelope-visual-intro .envelope-flap {
-  height: 45%;
-}
-
-.envelope-pocket {
-  bottom: 0;
-  z-index: 5;
-  height: 8.35rem;
-  background:
-    radial-gradient(circle at 38% 18%, rgba(255, 255, 255, 0.52), transparent 8rem),
-    repeating-radial-gradient(circle at 35% 22%, rgba(112, 89, 48, 0.045) 0 0.7px, transparent 0.7px 2.8px),
-    linear-gradient(135deg, #fff8e8, #e7ddc4 56%, #f5edda);
-}
-
-.envelope-visual-intro .envelope-pocket {
-  height: 57%;
-}
-
-.envelope-pocket-left {
-  left: 0;
-  width: 51%;
-  border-radius: 0 0 0 1.35rem;
-  clip-path: polygon(0 0, 100% 50%, 0 100%);
-}
-
-.envelope-pocket-right {
-  right: 0;
-  width: 51%;
-  border-radius: 0 0 1.35rem 0;
-  clip-path: polygon(100% 0, 0 50%, 100% 100%);
-}
-
-.envelope-pocket-bottom {
-  right: 0;
-  left: 0;
-  border-radius: 0 0 1.35rem 1.35rem;
-  clip-path: polygon(0 100%, 50% 24%, 100% 100%);
-}
-
-.envelope-seal {
-  position: absolute;
-  bottom: 4.1rem;
-  left: 50%;
-  z-index: 8;
-  display: grid;
-  width: 3.15rem;
-  height: 3.15rem;
-  place-items: center;
-  border: 1px solid rgba(119, 82, 20, 0.38);
-  border-radius: 50%;
-  color: #6f4d13;
-  font-family: var(--font-heading);
-  font-size: 0.82rem;
-  font-weight: 700;
-  background:
-    radial-gradient(circle at 30% 20%, rgba(255, 255, 255, 0.74), transparent 28%),
-    radial-gradient(circle at 62% 72%, rgba(116, 91, 48, 0.22), transparent 42%),
-    linear-gradient(145deg, #fff5df, #d1b98f 62%, #f4e7cc);
-  box-shadow:
-    inset 0 0.25rem 0.42rem rgba(255, 255, 255, 0.62),
-    inset 0 -0.35rem 0.6rem rgba(111, 82, 41, 0.18),
-    0 0.45rem 1.2rem rgba(82, 59, 31, 0.26);
-  transform: translateX(-50%);
-}
-
-.envelope-visual-intro .envelope-seal {
-  bottom: 42%;
-  width: 5.35rem;
-  height: 5.35rem;
-  color: #f8efd9;
-  font-size: 0.92rem;
-}
-
-.envelope-seal::before {
-  position: absolute;
-  inset: 0.5rem;
-  content: "";
-  border: 1px solid rgba(255, 255, 255, 0.55);
-  border-radius: 50%;
-  box-shadow:
-    inset 0 0.15rem 0.35rem rgba(255, 255, 255, 0.42),
-    inset 0 -0.25rem 0.45rem rgba(104, 78, 39, 0.18);
-}
-
-.envelope-seal svg {
-  position: relative;
-  z-index: 2;
-  width: 3.35rem;
-  height: 2.55rem;
-  overflow: visible;
-  fill: none;
-  stroke: rgba(255, 255, 255, 0.88);
-  stroke-linecap: round;
-  stroke-linejoin: round;
-  stroke-width: 3.4;
-  filter:
-    drop-shadow(0 1px 0 rgba(255, 255, 255, 0.4))
-    drop-shadow(0 -1px 0 rgba(118, 88, 45, 0.2));
-}
-
-.envelope-monogram {
-  position: absolute;
-  bottom: 30%;
-  left: 50%;
-  z-index: 8;
-  color: rgba(128, 103, 67, 0.42);
-  font-family: var(--font-heading);
-  font-size: clamp(2.45rem, 10vw, 4.25rem);
-  font-weight: 600;
-  line-height: 1;
-  text-shadow:
-    0 1px 0 rgba(255, 255, 255, 0.78),
-    0 -1px 0 rgba(104, 83, 56, 0.28);
-  transform: translateX(-50%);
-}
-
-.intro-overlay.is-open .envelope-seal {
-  animation: sealPop 0.7s ease 0.32s forwards;
 }
 
 .garden-hero {

@@ -117,7 +117,7 @@ export function EnvelopeVisual({
       </motion.div>
 
       <motion.div
-        className="envelope-body"
+        className="envelope-photo-stack"
         animate={
           scrollStyles
             ? undefined
@@ -133,31 +133,29 @@ export function EnvelopeVisual({
           ease: [0.22, 1, 0.36, 1],
         }}
       >
-        <div className="envelope-back" />
+        <img
+          className="envelope-photo envelope-photo-base"
+          src={invitation.visual.envelopeImage}
+          alt=""
+          draggable="false"
+        />
         <motion.div
-          className="envelope-flap"
+          className="envelope-photo-flap"
           style={scrollStyles?.flap}
           animate={
             scrollStyles
               ? undefined
-              : { rotateX: isOpen ? -162 : 0, y: isOpen ? -2 : 0 }
+              : { rotateX: isOpen ? -138 : 0, y: isOpen ? -16 : 0 }
           }
-          transition={{ duration: 1.05, ease: [0.22, 1, 0.36, 1] }}
-        />
-        <div className="envelope-pocket envelope-pocket-left" />
-        <div className="envelope-pocket envelope-pocket-right" />
-        <div className="envelope-pocket envelope-pocket-bottom" />
-        <div className="envelope-seal">
-          <svg viewBox="0 0 72 48" aria-hidden="true">
-            <path d="M36 39c-9-4-14-10-14-18 7 1 12 4 14 11 2-7 7-10 14-11 0 8-5 14-14 18Z" />
-            <path d="M36 39c-12 0-21-5-26-14 8-1 15 1 20 7" />
-            <path d="M36 39c12 0 21-5 26-14-8-1-15 1-20 7" />
-            <path d="M36 35c-5-8-5-17 0-25 5 8 5 17 0 25Z" />
-          </svg>
-        </div>
-        <div className="envelope-monogram">
-          {invitation.couple.initials.replace(/\s*&\s*/, "")}
-        </div>
+          transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
+        >
+          <img
+            className="envelope-photo"
+            src={invitation.visual.envelopeImage}
+            alt=""
+            draggable="false"
+          />
+        </motion.div>
       </motion.div>
     </motion.div>
   );
