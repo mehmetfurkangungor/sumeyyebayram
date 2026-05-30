@@ -32,7 +32,7 @@ export function EnvelopeIntro({ invitation }) {
         aria-label={invitation.intro.openLabel}
         onClick={openEnvelope}
         disabled={phase !== "closed"}
-        whileTap={phase === "closed" ? { scale: 0.97 } : undefined}
+        whileTap={phase === "closed" ? { scale: 0.985 } : undefined}
       >
         <EnvelopeVisual
           invitation={invitation}
@@ -40,21 +40,6 @@ export function EnvelopeIntro({ invitation }) {
           mode="intro"
         />
       </motion.button>
-
-      <motion.p
-        className="intro-hint"
-        animate={{
-          opacity: phase === "closed" ? [0.58, 1, 0.58] : [0.72, 1, 0.72],
-          y: phase === "closed" ? [0, -4, 0] : [8, 0, 8],
-        }}
-        transition={{
-          duration: phase === "closed" ? 1.9 : 1.55,
-          repeat: Infinity,
-          ease: "easeInOut",
-        }}
-      >
-        {phase === "closed" ? invitation.intro.openHint : invitation.hero.scrollLabel}
-      </motion.p>
 
       {phase === "open" ? (
         <div className="falling-leaves" aria-hidden="true">
@@ -84,7 +69,12 @@ export function EnvelopeIntro({ invitation }) {
   );
 }
 
-export function EnvelopeVisual({ invitation, isOpen, scrollStyles, mode = "default" }) {
+export function EnvelopeVisual({
+  invitation,
+  isOpen,
+  scrollStyles,
+  mode = "default",
+}) {
   const [firstName, secondName] = invitation.couple.names
     .split("&")
     .map((name) => name.trim());
@@ -96,42 +86,53 @@ export function EnvelopeVisual({ invitation, isOpen, scrollStyles, mode = "defau
         scrollStyles
           ? undefined
           : {
-              scale: mode === "intro" ? (isOpen ? 0.82 : 1.12) : 1,
+              scale: mode === "intro" ? (isOpen ? 0.9 : 1.08) : 1,
               y: mode === "intro" ? (isOpen ? 18 : 0) : 0,
             }
       }
       transition={{ duration: 1.12, ease: [0.22, 1, 0.36, 1] }}
     >
       <motion.div
-        className="envelope-body"
-        animate={scrollStyles ? undefined : { y: isOpen ? 72 : 0 }}
-        transition={{ duration: 1.18, delay: isOpen ? 0.06 : 0, ease: [0.22, 1, 0.36, 1] }}
+        className="envelope-note"
+        style={scrollStyles?.note}
+        initial={scrollStyles ? false : { y: 128, scale: 0.72, opacity: 0 }}
+        animate={
+          scrollStyles
+            ? undefined
+            : {
+                y: isOpen ? -96 : 128,
+                scale: isOpen ? 1.04 : 0.72,
+                opacity: isOpen ? 1 : 0,
+              }
+        }
+        transition={{ duration: 1.32, delay: isOpen ? 0.88 : 0 }}
       >
-        <motion.div
-          className="envelope-note"
-          style={scrollStyles?.note}
-          initial={
-            scrollStyles ? false : { y: 40, scale: 0.72, opacity: 0 }
-          }
-          animate={
-            scrollStyles
-              ? undefined
-              : {
-                  y: isOpen ? -222 : 68,
-                  scale: isOpen ? 1.08 : 0.68,
-                  opacity: isOpen ? 1 : 0,
-                }
-          }
-          transition={{ duration: 1.28, delay: isOpen ? 0.72 : 0 }}
-        >
-          <span>{invitation.hero.subtitle}</span>
-          <strong className="couple-name">
-            <span>{firstName}</span>
-            <span className="ampersand">&</span>
-            <span>{secondName}</span>
-          </strong>
-          <small>{invitation.hero.intro}</small>
-        </motion.div>
+        <span>{invitation.hero.subtitle}</span>
+        <strong className="couple-name">
+          <span>{firstName}</span>
+          <span className="ampersand">&</span>
+          <span>{secondName}</span>
+        </strong>
+        <small>{invitation.hero.intro}</small>
+      </motion.div>
+
+      <motion.div
+        className="envelope-body"
+        animate={
+          scrollStyles
+            ? undefined
+            : {
+                y: isOpen ? 98 : 0,
+                scale: isOpen ? 0.94 : 1,
+                opacity: isOpen ? 0.08 : 1,
+              }
+        }
+        transition={{
+          duration: 1.25,
+          delay: isOpen ? 0.16 : 0,
+          ease: [0.22, 1, 0.36, 1],
+        }}
+      >
         <div className="envelope-back" />
         <motion.div
           className="envelope-flap"
@@ -146,7 +147,17 @@ export function EnvelopeVisual({ invitation, isOpen, scrollStyles, mode = "defau
         <div className="envelope-pocket envelope-pocket-left" />
         <div className="envelope-pocket envelope-pocket-right" />
         <div className="envelope-pocket envelope-pocket-bottom" />
-        <div className="envelope-seal">{invitation.couple.initials}</div>
+        <div className="envelope-seal">
+          <svg viewBox="0 0 72 48" aria-hidden="true">
+            <path d="M36 39c-9-4-14-10-14-18 7 1 12 4 14 11 2-7 7-10 14-11 0 8-5 14-14 18Z" />
+            <path d="M36 39c-12 0-21-5-26-14 8-1 15 1 20 7" />
+            <path d="M36 39c12 0 21-5 26-14-8-1-15 1-20 7" />
+            <path d="M36 35c-5-8-5-17 0-25 5 8 5 17 0 25Z" />
+          </svg>
+        </div>
+        <div className="envelope-monogram">
+          {invitation.couple.initials.replace(/\s*&\s*/, "")}
+        </div>
       </motion.div>
     </motion.div>
   );
