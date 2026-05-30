@@ -34,7 +34,11 @@ export function EnvelopeIntro({ invitation }) {
         disabled={phase !== "closed"}
         whileTap={phase === "closed" ? { scale: 0.97 } : undefined}
       >
-        <EnvelopeVisual invitation={invitation} isOpen={phase === "open"} />
+        <EnvelopeVisual
+          invitation={invitation}
+          isOpen={phase === "open"}
+          mode="intro"
+        />
       </motion.button>
 
       <motion.p
@@ -80,17 +84,28 @@ export function EnvelopeIntro({ invitation }) {
   );
 }
 
-export function EnvelopeVisual({ invitation, isOpen, scrollStyles }) {
+export function EnvelopeVisual({ invitation, isOpen, scrollStyles, mode = "default" }) {
   const [firstName, secondName] = invitation.couple.names
     .split("&")
     .map((name) => name.trim());
 
   return (
-    <div className={`envelope-visual ${isOpen ? "is-open" : ""}`}>
+    <motion.div
+      className={`envelope-visual envelope-visual-${mode} ${isOpen ? "is-open" : ""}`}
+      animate={
+        scrollStyles
+          ? undefined
+          : {
+              scale: mode === "intro" ? (isOpen ? 0.82 : 1.12) : 1,
+              y: mode === "intro" ? (isOpen ? 18 : 0) : 0,
+            }
+      }
+      transition={{ duration: 1.12, ease: [0.22, 1, 0.36, 1] }}
+    >
       <motion.div
         className="envelope-body"
-        animate={scrollStyles ? undefined : { y: isOpen ? 34 : 0 }}
-        transition={{ duration: 1.05, ease: [0.22, 1, 0.36, 1] }}
+        animate={scrollStyles ? undefined : { y: isOpen ? 72 : 0 }}
+        transition={{ duration: 1.18, delay: isOpen ? 0.06 : 0, ease: [0.22, 1, 0.36, 1] }}
       >
         <motion.div
           className="envelope-note"
@@ -102,12 +117,12 @@ export function EnvelopeVisual({ invitation, isOpen, scrollStyles }) {
             scrollStyles
               ? undefined
               : {
-                  y: isOpen ? -154 : 40,
-                  scale: isOpen ? 1.05 : 0.72,
+                  y: isOpen ? -222 : 68,
+                  scale: isOpen ? 1.08 : 0.68,
                   opacity: isOpen ? 1 : 0,
                 }
           }
-          transition={{ duration: 1.12, delay: isOpen ? 0.42 : 0 }}
+          transition={{ duration: 1.28, delay: isOpen ? 0.72 : 0 }}
         >
           <span>{invitation.hero.subtitle}</span>
           <strong className="couple-name">
@@ -133,6 +148,6 @@ export function EnvelopeVisual({ invitation, isOpen, scrollStyles }) {
         <div className="envelope-pocket envelope-pocket-bottom" />
         <div className="envelope-seal">{invitation.couple.initials}</div>
       </motion.div>
-    </div>
+    </motion.div>
   );
 }

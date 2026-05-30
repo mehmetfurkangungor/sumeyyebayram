@@ -24,7 +24,7 @@ export const invitation = {
   },
   intro: {
     openLabel: "Davetiyeyi aç",
-    openHint: "Davetiyeyi açmak için dokunun",
+    openHint: "Mührü açmak için dokunun",
   },
   garden: {
     previewLabel: "Dijital nişan davetiyesi",
