@@ -100,20 +100,16 @@ a {
 }
 
 .intro-overlay {
-  position: fixed;
-  top: 0;
-  bottom: 0;
-  left: 50%;
-  z-index: 80;
+  position: relative;
+  z-index: 12;
   display: grid;
-  width: min(100vw, 430px);
+  min-height: 100svh;
   place-items: center;
   overflow: hidden;
   background:
     linear-gradient(180deg, rgba(247, 248, 239, 0.18), rgba(236, 241, 230, 0.72)),
     var(--scene-image) center/cover;
   box-shadow: 0 0 80px rgba(39, 63, 48, 0.22);
-  transform: translateX(-50%);
 }
 
 .intro-overlay::before,
@@ -146,7 +142,7 @@ a {
   z-index: 3;
   display: grid;
   width: min(88vw, 23rem);
-  min-height: 19rem;
+  min-height: 23rem;
   place-items: center;
   padding: 0;
   border: 0;
@@ -161,7 +157,7 @@ a {
 .intro-hint {
   position: absolute;
   right: 1.25rem;
-  bottom: 9vh;
+  bottom: 7vh;
   left: 1.25rem;
   z-index: 4;
   margin: 0;
@@ -197,7 +193,7 @@ a {
   position: relative;
   display: grid;
   width: min(86vw, 22.5rem);
-  height: 18rem;
+  height: 22rem;
   place-items: end center;
   perspective: 1100px;
 }

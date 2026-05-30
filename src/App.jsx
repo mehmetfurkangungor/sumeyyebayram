@@ -14,11 +14,10 @@ import {
 import { motion } from "framer-motion";
 import { EnvelopeIntro } from "./components/EnvelopeIntro";
 import { FloatingParticles } from "./components/FloatingParticles";
-import { ScrollEnvelopeHero } from "./components/ScrollEnvelopeHero";
 import { getWhatsappHref, invitation } from "./data/invitation";
 
 const reveal = {
-  hidden: { opacity: 0, y: 48, filter: "blur(10px)" },
+  hidden: { opacity: 0, y: 76, filter: "blur(12px)" },
   show: {
     opacity: 1,
     y: 0,
@@ -58,7 +57,7 @@ function AnimatedSection({ children, className = "" }) {
       variants={reveal}
       initial="hidden"
       whileInView="show"
-      viewport={{ once: true, amount: 0.28 }}
+      viewport={{ once: false, amount: 0.22 }}
     >
       {children}
     </motion.section>
@@ -77,7 +76,12 @@ function SectionHeading({ kicker, title, copy }) {
 
 function GardenHero() {
   return (
-    <section className="garden-hero">
+    <motion.section
+      className="garden-hero"
+      initial="hidden"
+      whileInView="show"
+      viewport={{ once: true, amount: 0.45 }}
+    >
       <motion.img
         className="garden-hero-image"
         src={invitation.visual.sceneImage}
@@ -95,18 +99,30 @@ function GardenHero() {
       <div className="garden-hero-tint" />
       <motion.p
         className="preview-ribbon"
-        initial={{ opacity: 0, y: -12 }}
-        animate={{ opacity: 0.72, y: 0 }}
-        transition={{ duration: 0.7 }}
+        variants={{
+          hidden: { opacity: 0, y: 18 },
+          show: {
+            opacity: 0.72,
+            y: 0,
+            transition: { duration: 0.7, delay: 0.1 },
+          },
+        }}
       >
         {invitation.garden.previewLabel}
       </motion.p>
 
       <motion.div
         className="hero-invite-card"
-        initial={{ opacity: 0, y: 34, scale: 0.94, filter: "blur(12px)" }}
-        animate={{ opacity: 1, y: 0, scale: 1, filter: "blur(0px)" }}
-        transition={{ delay: 0.45, duration: 1, ease: [0.22, 1, 0.36, 1] }}
+        variants={{
+          hidden: { opacity: 0, y: 120, scale: 0.9, filter: "blur(16px)" },
+          show: {
+            opacity: 1,
+            y: 0,
+            scale: 1,
+            filter: "blur(0px)",
+            transition: { delay: 0.22, duration: 1.05, ease: [0.22, 1, 0.36, 1] },
+          },
+        }}
       >
         <p>{invitation.garden.category}</p>
         <CoupleName names={invitation.couple.names} as="h1" />
@@ -124,9 +140,10 @@ function GardenHero() {
         className="floating-language"
         type="button"
         aria-label="Dil seç"
-        initial={{ opacity: 0, scale: 0.72 }}
-        animate={{ opacity: 1, scale: 1 }}
-        transition={{ delay: 1.1, duration: 0.5 }}
+        variants={{
+          hidden: { opacity: 0, scale: 0.72 },
+          show: { opacity: 1, scale: 1, transition: { delay: 0.9, duration: 0.5 } },
+        }}
       >
         <Globe2 size={21} strokeWidth={1.7} />
       </motion.button>
@@ -135,13 +152,14 @@ function GardenHero() {
         className="floating-music"
         type="button"
         aria-label="Müzik"
-        initial={{ opacity: 0, scale: 0.72 }}
-        animate={{ opacity: 1, scale: 1 }}
-        transition={{ delay: 1.24, duration: 0.5 }}
+        variants={{
+          hidden: { opacity: 0, scale: 0.72 },
+          show: { opacity: 1, scale: 1, transition: { delay: 1.02, duration: 0.5 } },
+        }}
       >
         <Music2 size={18} strokeWidth={1.8} />
       </motion.button>
-    </section>
+    </motion.section>
   );
 }
 
@@ -304,7 +322,6 @@ export default function App() {
       <EnvelopeIntro invitation={invitation} />
       <FloatingParticles particles={invitation.visual.particles} />
       <GardenHero />
-      <ScrollEnvelopeHero invitation={invitation} />
       <LoveQuote />
       <CountdownBand />
       <WhenWhere />

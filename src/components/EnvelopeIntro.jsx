@@ -1,5 +1,5 @@
-import { useEffect, useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { useState } from "react";
+import { motion } from "framer-motion";
 
 const leaves = Array.from({ length: 18 }, (_, index) => ({
   id: index,
@@ -13,18 +13,6 @@ const leaves = Array.from({ length: 18 }, (_, index) => ({
 export function EnvelopeIntro({ invitation }) {
   const [phase, setPhase] = useState("closed");
 
-  useEffect(() => {
-    if (phase !== "open") {
-      return undefined;
-    }
-
-    const timer = window.setTimeout(() => {
-      setPhase("done");
-    }, 4200);
-
-    return () => window.clearTimeout(timer);
-  }, [phase]);
-
   function openEnvelope() {
     if (phase === "closed") {
       setPhase("open");
@@ -32,67 +20,63 @@ export function EnvelopeIntro({ invitation }) {
   }
 
   return (
-    <AnimatePresence>
-      {phase !== "done" ? (
-        <motion.div
-          className={`intro-overlay ${phase === "open" ? "is-open" : ""}`}
-          initial={{ opacity: 1 }}
-          exit={{ opacity: 0, filter: "blur(10px)" }}
-          transition={{ duration: 0.85, ease: [0.22, 1, 0.36, 1] }}
-        >
-          <motion.button
-            className="intro-envelope-button"
-            type="button"
-            aria-label={invitation.intro.openLabel}
-            onClick={openEnvelope}
-            disabled={phase !== "closed"}
-            whileTap={phase === "closed" ? { scale: 0.97 } : undefined}
-          >
-            <EnvelopeVisual invitation={invitation} isOpen={phase === "open"} />
-          </motion.button>
+    <motion.section
+      className={`intro-overlay ${phase === "open" ? "is-open" : ""}`}
+      initial={{ opacity: 0, y: 28, filter: "blur(10px)" }}
+      animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+      transition={{ duration: 0.85, ease: [0.22, 1, 0.36, 1] }}
+    >
+      <motion.button
+        className="intro-envelope-button"
+        type="button"
+        aria-label={invitation.intro.openLabel}
+        onClick={openEnvelope}
+        disabled={phase !== "closed"}
+        whileTap={phase === "closed" ? { scale: 0.97 } : undefined}
+      >
+        <EnvelopeVisual invitation={invitation} isOpen={phase === "open"} />
+      </motion.button>
 
-          <motion.p
-            className="intro-hint"
-            animate={{
-              opacity: phase === "closed" ? [0.58, 1, 0.58] : 0,
-              y: phase === "closed" ? [0, -4, 0] : 12,
-            }}
-            transition={{
-              duration: 1.9,
-              repeat: phase === "closed" ? Infinity : 0,
-              ease: "easeInOut",
-            }}
-          >
-            {invitation.intro.openHint}
-          </motion.p>
+      <motion.p
+        className="intro-hint"
+        animate={{
+          opacity: phase === "closed" ? [0.58, 1, 0.58] : [0.72, 1, 0.72],
+          y: phase === "closed" ? [0, -4, 0] : [8, 0, 8],
+        }}
+        transition={{
+          duration: phase === "closed" ? 1.9 : 1.55,
+          repeat: Infinity,
+          ease: "easeInOut",
+        }}
+      >
+        {phase === "closed" ? invitation.intro.openHint : invitation.hero.scrollLabel}
+      </motion.p>
 
-          {phase === "open" ? (
-            <div className="falling-leaves" aria-hidden="true">
-              {leaves.map((leaf) => (
-                <motion.span
-                  className="falling-leaf"
-                  key={leaf.id}
-                  style={{ left: `${leaf.left}%` }}
-                  initial={{ opacity: 0, y: -70, x: 0, rotate: 0, scale: 0.7 }}
-                  animate={{
-                    opacity: [0, 0.86, 0.72, 0],
-                    y: "116vh",
-                    x: [0, leaf.drift, leaf.drift * -0.25],
-                    rotate: leaf.rotate,
-                    scale: [0.7, 1, 0.86],
-                  }}
-                  transition={{
-                    duration: leaf.duration,
-                    delay: leaf.delay,
-                    ease: "easeInOut",
-                  }}
-                />
-              ))}
-            </div>
-          ) : null}
-        </motion.div>
+      {phase === "open" ? (
+        <div className="falling-leaves" aria-hidden="true">
+          {leaves.map((leaf) => (
+            <motion.span
+              className="falling-leaf"
+              key={leaf.id}
+              style={{ left: `${leaf.left}%` }}
+              initial={{ opacity: 0, y: -70, x: 0, rotate: 0, scale: 0.7 }}
+              animate={{
+                opacity: [0, 0.86, 0.72, 0],
+                y: "116vh",
+                x: [0, leaf.drift, leaf.drift * -0.25],
+                rotate: leaf.rotate,
+                scale: [0.7, 1, 0.86],
+              }}
+              transition={{
+                duration: leaf.duration,
+                delay: leaf.delay,
+                ease: "easeInOut",
+              }}
+            />
+          ))}
+        </div>
       ) : null}
-    </AnimatePresence>
+    </motion.section>
   );
 }
 
@@ -103,7 +87,11 @@ export function EnvelopeVisual({ invitation, isOpen, scrollStyles }) {
 
   return (
     <div className={`envelope-visual ${isOpen ? "is-open" : ""}`}>
-      <div className="envelope-body">
+      <motion.div
+        className="envelope-body"
+        animate={scrollStyles ? undefined : { y: isOpen ? 34 : 0 }}
+        transition={{ duration: 1.05, ease: [0.22, 1, 0.36, 1] }}
+      >
         <motion.div
           className="envelope-note"
           style={scrollStyles?.note}
@@ -114,7 +102,7 @@ export function EnvelopeVisual({ invitation, isOpen, scrollStyles }) {
             scrollStyles
               ? undefined
               : {
-                  y: isOpen ? -132 : 40,
+                  y: isOpen ? -154 : 40,
                   scale: isOpen ? 1.05 : 0.72,
                   opacity: isOpen ? 1 : 0,
                 }
@@ -144,7 +132,7 @@ export function EnvelopeVisual({ invitation, isOpen, scrollStyles }) {
         <div className="envelope-pocket envelope-pocket-right" />
         <div className="envelope-pocket envelope-pocket-bottom" />
         <div className="envelope-seal">{invitation.couple.initials}</div>
-      </div>
+      </motion.div>
     </div>
   );
 }
