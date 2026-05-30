@@ -64,8 +64,8 @@ a {
   overflow-x: hidden;
   isolation: isolate;
   background:
-    radial-gradient(circle at 50% 10%, rgba(219, 229, 217, 0.72), transparent 19rem),
-    linear-gradient(180deg, #f5f7f0, #fffdfa 36%, #f7f8f2);
+    linear-gradient(180deg, rgba(247, 250, 244, 0.72), rgba(255, 253, 248, 0.64)),
+    var(--scene-image) center top / cover fixed;
   box-shadow: 0 0 80px rgba(39, 63, 48, 0.16);
 }
 
@@ -76,9 +76,9 @@ a {
   content: "";
   background:
     radial-gradient(rgba(47, 90, 69, 0.08) 0.7px, transparent 0.9px),
-    linear-gradient(140deg, rgba(255, 255, 255, 0.5), transparent 45%);
+    linear-gradient(140deg, rgba(255, 255, 255, 0.56), transparent 45%);
   background-size: 4px 4px, auto;
-  opacity: 0.38;
+  opacity: 0.46;
   pointer-events: none;
 }
 
@@ -155,9 +155,9 @@ a {
 }
 
 .falling-leaves {
-  position: absolute;
-  inset: 0;
-  z-index: 6;
+  position: fixed;
+  inset: 0 calc((100vw - min(100vw, 430px)) / 2);
+  z-index: 18;
   overflow: hidden;
   pointer-events: none;
 }
@@ -165,6 +165,7 @@ a {
 .falling-leaf {
   position: absolute;
   top: -2rem;
+  left: var(--leaf-left);
   width: 0.68rem;
   height: 0.34rem;
   border-radius: 100% 0 100% 0;
@@ -172,6 +173,7 @@ a {
     linear-gradient(135deg, rgba(255, 244, 190, 0.95), rgba(183, 134, 45, 0.9)),
     #d6a84c;
   box-shadow: 0 0 14px rgba(210, 165, 76, 0.26);
+  animation: leafFall var(--leaf-duration) ease-in-out var(--leaf-delay) infinite;
 }
 
 .envelope-visual {
@@ -185,40 +187,137 @@ a {
 }
 
 .envelope-visual-intro {
-  width: min(96vw, 31rem);
-  height: min(88svh, 44rem);
+  width: min(92vw, 25.5rem);
+  height: 29.5rem;
 }
 
-.envelope-photo-stack {
+.envelope-body {
   position: relative;
   width: 100%;
-  height: 100%;
+  height: 13.2rem;
   transform-style: preserve-3d;
-  filter: drop-shadow(0 2rem 3.2rem rgba(48, 58, 44, 0.18));
+  filter: drop-shadow(0 26px 34px rgba(48, 58, 44, 0.18));
 }
 
-.envelope-photo,
-.envelope-photo-flap {
+.envelope-visual-intro .envelope-body {
+  position: absolute;
+  right: 0;
+  bottom: 5.2rem;
+  left: 0;
+  height: 18.4rem;
+}
+
+.envelope-back,
+.envelope-flap,
+.envelope-pocket {
+  position: absolute;
+  overflow: hidden;
+  border: 1px solid rgba(191, 154, 79, 0.24);
+}
+
+.envelope-back {
+  inset: 0;
+  z-index: 1;
+  border-radius: 1.25rem;
+  background:
+    radial-gradient(circle at 28% 18%, rgba(255, 255, 255, 0.72), transparent 9rem),
+    repeating-radial-gradient(circle at 30% 20%, rgba(112, 89, 48, 0.045) 0 0.7px, transparent 0.7px 2.8px),
+    linear-gradient(135deg, rgba(255, 255, 251, 0.96), rgba(236, 222, 192, 0.94)),
+    #f8efe0;
+}
+
+.envelope-back::before,
+.envelope-pocket-bottom::before {
   position: absolute;
   inset: 0;
-  display: block;
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
-  user-select: none;
+  content: "";
+  background:
+    linear-gradient(135deg, transparent 49.5%, rgba(188, 152, 82, 0.14) 50%, transparent 50.5%),
+    linear-gradient(45deg, transparent 49.5%, rgba(188, 152, 82, 0.12) 50%, transparent 50.5%);
 }
 
-.envelope-photo-base {
-  z-index: 2;
-}
-
-.envelope-photo-flap {
-  z-index: 4;
-  overflow: hidden;
-  clip-path: polygon(0 0, 100% 0, 100% 57%, 50% 66%, 0 57%);
-  transform-origin: 50% 6%;
+.envelope-flap {
+  top: 0;
+  right: 0;
+  left: 0;
+  z-index: 6;
+  height: 7.35rem;
+  border-radius: 1.25rem 1.25rem 0.35rem 0.35rem;
+  background:
+    repeating-radial-gradient(circle at 42% 22%, rgba(112, 89, 48, 0.045) 0 0.7px, transparent 0.7px 2.8px),
+    linear-gradient(180deg, rgba(255, 249, 235, 0.98), rgba(231, 213, 176, 0.94)),
+    #f4e6cc;
+  clip-path: polygon(0 0, 100% 0, 50% 100%);
+  transform-origin: top center;
   backface-visibility: hidden;
-  will-change: transform;
+}
+
+.envelope-visual-intro .envelope-flap {
+  height: 10.4rem;
+}
+
+.envelope-pocket {
+  bottom: 0;
+  z-index: 5;
+  height: 8.35rem;
+  background:
+    radial-gradient(circle at 38% 18%, rgba(255, 255, 255, 0.72), transparent 8rem),
+    repeating-radial-gradient(circle at 35% 22%, rgba(112, 89, 48, 0.045) 0 0.7px, transparent 0.7px 2.8px),
+    linear-gradient(135deg, rgba(255, 255, 250, 0.96), rgba(238, 223, 194, 0.96)),
+    #f7ead2;
+}
+
+.envelope-visual-intro .envelope-pocket {
+  height: 11.7rem;
+}
+
+.envelope-pocket-left {
+  left: 0;
+  width: 51%;
+  border-radius: 0 0 0 1.25rem;
+  clip-path: polygon(0 0, 100% 50%, 0 100%);
+}
+
+.envelope-pocket-right {
+  right: 0;
+  width: 51%;
+  border-radius: 0 0 1.25rem 0;
+  clip-path: polygon(100% 0, 0 50%, 100% 100%);
+}
+
+.envelope-pocket-bottom {
+  right: 0;
+  left: 0;
+  border-radius: 0 0 1.25rem 1.25rem;
+  clip-path: polygon(0 100%, 50% 24%, 100% 100%);
+}
+
+.envelope-seal {
+  position: absolute;
+  bottom: 5.7rem;
+  left: 50%;
+  z-index: 8;
+  display: grid;
+  width: 3.7rem;
+  height: 3.7rem;
+  place-items: center;
+  border: 1px solid rgba(119, 82, 20, 0.38);
+  border-radius: 50%;
+  color: #6f4d13;
+  font-family: var(--font-heading);
+  font-size: 0.82rem;
+  font-weight: 700;
+  background:
+    radial-gradient(circle at 30% 24%, #fff1a8, transparent 34%),
+    linear-gradient(145deg, #efd77c, #a97b22);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.58),
+    0 12px 22px rgba(134, 93, 25, 0.24);
+  transform: translateX(-50%);
+}
+
+.intro-overlay.is-open .envelope-seal {
+  animation: sealPop 0.7s ease 0.32s forwards;
 }
 
 .envelope-note {
@@ -246,7 +345,7 @@ a {
 
 .envelope-visual-intro .envelope-note {
   right: 8%;
-  bottom: 22%;
+  bottom: 14.2rem;
   left: 8%;
   z-index: 9;
   min-height: 13.2rem;
@@ -519,6 +618,7 @@ a {
   display: grid;
   align-items: center;
   background:
+    linear-gradient(180deg, rgba(255, 255, 251, 0.28), rgba(255, 255, 251, 0.18)),
     radial-gradient(circle at 0 20%, rgba(216, 137, 149, 0.1), transparent 9rem),
     radial-gradient(circle at 100% 74%, rgba(148, 168, 143, 0.16), transparent 12rem);
 }
@@ -571,8 +671,7 @@ a {
   gap: 1.6rem;
   text-align: center;
   background:
-    linear-gradient(180deg, rgba(255, 255, 255, 0.2), transparent 16%),
-    linear-gradient(180deg, #d8e4d5, #f7faf5);
+    linear-gradient(180deg, rgba(216, 228, 213, 0.62), rgba(247, 250, 245, 0.3));
 }
 
 .garden-countdown {
@@ -627,7 +726,7 @@ a {
 .final-section {
   position: relative;
   padding: 5rem 1rem;
-  background: #fffefb;
+  background: rgba(255, 254, 251, 0.24);
 }
 
 .when-section::before,
@@ -767,7 +866,7 @@ a {
 
 .program-section {
   background:
-    linear-gradient(rgba(255, 254, 251, 0.84), rgba(255, 254, 251, 0.84)),
+    linear-gradient(rgba(255, 254, 251, 0.42), rgba(255, 254, 251, 0.32)),
     radial-gradient(circle at 22% 22%, var(--rose-soft), transparent 8rem);
 }
 
@@ -949,6 +1048,26 @@ a {
   100% {
     opacity: 0;
     transform: translateX(-50%) translateY(1.2rem) scale(0.64);
+  }
+}
+
+@keyframes leafFall {
+  0% {
+    opacity: 0;
+    transform: translate3d(0, -8vh, 0) rotate(0deg) scale(0.72);
+  }
+
+  12% {
+    opacity: 0.82;
+  }
+
+  72% {
+    opacity: 0.7;
+  }
+
+  100% {
+    opacity: 0;
+    transform: translate3d(var(--leaf-drift), 112vh, 0) rotate(var(--leaf-rotate)) scale(0.9);
   }
 }
 

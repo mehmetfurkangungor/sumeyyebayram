@@ -150,7 +150,6 @@ export const invitation = {
   visual: {
     backgroundImage: assetPath("assets/romantic-abstract-bg.png"),
     sceneImage: assetPath("assets/istanbul-terrace-invitation.png"),
-    envelopeImage: assetPath("assets/envelope-reference.png"),
     particles: [
       { left: "9%", top: "12%", size: 3, delay: 0.2, duration: 7 },
       { left: "82%", top: "15%", size: 2, delay: 1.1, duration: 8 },

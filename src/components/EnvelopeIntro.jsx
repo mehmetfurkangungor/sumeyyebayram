@@ -44,22 +44,15 @@ export function EnvelopeIntro({ invitation }) {
       {phase === "open" ? (
         <div className="falling-leaves" aria-hidden="true">
           {leaves.map((leaf) => (
-            <motion.span
+            <span
               className="falling-leaf"
               key={leaf.id}
-              style={{ left: `${leaf.left}%` }}
-              initial={{ opacity: 0, y: -70, x: 0, rotate: 0, scale: 0.7 }}
-              animate={{
-                opacity: [0, 0.86, 0.72, 0],
-                y: "116vh",
-                x: [0, leaf.drift, leaf.drift * -0.25],
-                rotate: leaf.rotate,
-                scale: [0.7, 1, 0.86],
-              }}
-              transition={{
-                duration: leaf.duration,
-                delay: leaf.delay,
-                ease: "easeInOut",
+              style={{
+                "--leaf-left": `${leaf.left}%`,
+                "--leaf-drift": `${leaf.drift}px`,
+                "--leaf-rotate": `${leaf.rotate}deg`,
+                "--leaf-delay": `${leaf.delay}s`,
+                "--leaf-duration": `${leaf.duration + 2.8}s`,
               }}
             />
           ))}
@@ -117,7 +110,7 @@ export function EnvelopeVisual({
       </motion.div>
 
       <motion.div
-        className="envelope-photo-stack"
+        className="envelope-body"
         animate={
           scrollStyles
             ? undefined
@@ -133,29 +126,21 @@ export function EnvelopeVisual({
           ease: [0.22, 1, 0.36, 1],
         }}
       >
-        <img
-          className="envelope-photo envelope-photo-base"
-          src={invitation.visual.envelopeImage}
-          alt=""
-          draggable="false"
-        />
+        <div className="envelope-back" />
         <motion.div
-          className="envelope-photo-flap"
+          className="envelope-flap"
           style={scrollStyles?.flap}
           animate={
             scrollStyles
               ? undefined
-              : { rotateX: isOpen ? -138 : 0, y: isOpen ? -16 : 0 }
+              : { rotateX: isOpen ? -162 : 0, y: isOpen ? -2 : 0 }
           }
-          transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
-        >
-          <img
-            className="envelope-photo"
-            src={invitation.visual.envelopeImage}
-            alt=""
-            draggable="false"
-          />
-        </motion.div>
+          transition={{ duration: 1.05, ease: [0.22, 1, 0.36, 1] }}
+        />
+        <div className="envelope-pocket envelope-pocket-left" />
+        <div className="envelope-pocket envelope-pocket-right" />
+        <div className="envelope-pocket envelope-pocket-bottom" />
+        <div className="envelope-seal">{invitation.couple.initials}</div>
       </motion.div>
     </motion.div>
   );
