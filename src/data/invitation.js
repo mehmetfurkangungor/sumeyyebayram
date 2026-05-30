@@ -1,6 +1,8 @@
 const whatsappMessage =
   "Merhaba, Sümeyye ve Bayram'ın nişan davetine katılım sağlayacağım.";
 
+const assetPath = (path) => `${import.meta.env.BASE_URL}${path.replace(/^\/+/, "")}`;
+
 export const invitation = {
   meta: {
     title: "Sümeyye & Bayram | Nişan Davetiyesi",
@@ -146,8 +148,8 @@ export const invitation = {
     names: "Sümeyye & Bayram",
   },
   visual: {
-    backgroundImage: "/assets/romantic-abstract-bg.png",
-    sceneImage: "/assets/istanbul-terrace-invitation.png",
+    backgroundImage: assetPath("assets/romantic-abstract-bg.png"),
+    sceneImage: assetPath("assets/istanbul-terrace-invitation.png"),
     particles: [
       { left: "9%", top: "12%", size: 3, delay: 0.2, duration: 7 },
       { left: "82%", top: "15%", size: 2, delay: 1.1, duration: 8 },

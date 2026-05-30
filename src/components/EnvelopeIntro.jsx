@@ -107,6 +107,9 @@ export function EnvelopeVisual({ invitation, isOpen, scrollStyles }) {
         <motion.div
           className="envelope-note"
           style={scrollStyles?.note}
+          initial={
+            scrollStyles ? false : { y: 40, scale: 0.72, opacity: 0 }
+          }
           animate={
             scrollStyles
               ? undefined

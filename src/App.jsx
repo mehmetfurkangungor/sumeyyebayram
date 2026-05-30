@@ -12,7 +12,9 @@ import {
   Sparkles,
 } from "lucide-react";
 import { motion } from "framer-motion";
+import { EnvelopeIntro } from "./components/EnvelopeIntro";
 import { FloatingParticles } from "./components/FloatingParticles";
+import { ScrollEnvelopeHero } from "./components/ScrollEnvelopeHero";
 import { getWhatsappHref, invitation } from "./data/invitation";
 
 const reveal = {
@@ -82,8 +84,13 @@ function GardenHero() {
         alt=""
         draggable="false"
         initial={{ scale: 1.08 }}
-        animate={{ scale: 1 }}
-        transition={{ duration: 2.8, ease: [0.22, 1, 0.36, 1] }}
+        animate={{ scale: [1.08, 1.02, 1.06], x: [0, -5, 4] }}
+        transition={{
+          duration: 18,
+          ease: "easeInOut",
+          repeat: Infinity,
+          repeatType: "mirror",
+        }}
       />
       <div className="garden-hero-tint" />
       <motion.p
@@ -290,9 +297,14 @@ export default function App() {
   }, []);
 
   return (
-    <main className="garden-shell">
+    <main
+      className="garden-shell"
+      style={{ "--scene-image": `url(${invitation.visual.sceneImage})` }}
+    >
+      <EnvelopeIntro invitation={invitation} />
       <FloatingParticles particles={invitation.visual.particles} />
       <GardenHero />
+      <ScrollEnvelopeHero invitation={invitation} />
       <LoveQuote />
       <CountdownBand />
       <WhenWhere />

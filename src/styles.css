@@ -99,6 +99,263 @@ a {
   transform: rotate(28deg);
 }
 
+.intro-overlay {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  z-index: 80;
+  display: grid;
+  width: min(100vw, 430px);
+  place-items: center;
+  overflow: hidden;
+  background:
+    linear-gradient(180deg, rgba(247, 248, 239, 0.18), rgba(236, 241, 230, 0.72)),
+    var(--scene-image) center/cover;
+  box-shadow: 0 0 80px rgba(39, 63, 48, 0.22);
+  transform: translateX(-50%);
+}
+
+.intro-overlay::before,
+.intro-overlay::after {
+  position: absolute;
+  inset: 0;
+  content: "";
+  pointer-events: none;
+}
+
+.intro-overlay::before {
+  z-index: 0;
+  background:
+    radial-gradient(circle at 50% 18%, rgba(255, 255, 255, 0.56), transparent 12rem),
+    radial-gradient(circle at 20% 74%, rgba(216, 137, 149, 0.16), transparent 11rem),
+    radial-gradient(rgba(47, 90, 69, 0.08) 0.7px, transparent 0.9px);
+  background-size: auto, auto, 4px 4px;
+  opacity: 0.86;
+}
+
+.intro-overlay::after {
+  z-index: 1;
+  background: linear-gradient(105deg, transparent 12%, rgba(255, 255, 255, 0.28) 46%, transparent 72%);
+  mix-blend-mode: screen;
+  animation: softLightSweep 5.8s ease-in-out infinite;
+}
+
+.intro-envelope-button {
+  position: relative;
+  z-index: 3;
+  display: grid;
+  width: min(88vw, 23rem);
+  min-height: 19rem;
+  place-items: center;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+}
+
+.intro-envelope-button:disabled {
+  cursor: default;
+}
+
+.intro-hint {
+  position: absolute;
+  right: 1.25rem;
+  bottom: 9vh;
+  left: 1.25rem;
+  z-index: 4;
+  margin: 0;
+  color: rgba(40, 63, 51, 0.68);
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.falling-leaves {
+  position: absolute;
+  inset: 0;
+  z-index: 6;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.falling-leaf {
+  position: absolute;
+  top: -2rem;
+  width: 0.68rem;
+  height: 0.34rem;
+  border-radius: 100% 0 100% 0;
+  background:
+    linear-gradient(135deg, rgba(255, 244, 190, 0.95), rgba(183, 134, 45, 0.9)),
+    #d6a84c;
+  box-shadow: 0 0 14px rgba(210, 165, 76, 0.26);
+}
+
+.envelope-visual {
+  position: relative;
+  display: grid;
+  width: min(86vw, 22.5rem);
+  height: 18rem;
+  place-items: end center;
+  perspective: 1100px;
+}
+
+.envelope-body {
+  position: relative;
+  width: 100%;
+  height: 13.2rem;
+  transform-style: preserve-3d;
+  filter: drop-shadow(0 26px 34px rgba(48, 58, 44, 0.18));
+}
+
+.envelope-back,
+.envelope-flap,
+.envelope-pocket {
+  position: absolute;
+  overflow: hidden;
+  border: 1px solid rgba(191, 154, 79, 0.24);
+}
+
+.envelope-back {
+  inset: 0;
+  z-index: 1;
+  border-radius: 1.1rem;
+  background:
+    linear-gradient(135deg, rgba(255, 255, 251, 0.94), rgba(236, 222, 192, 0.9)),
+    #f8efe0;
+}
+
+.envelope-back::before,
+.envelope-pocket-bottom::before {
+  position: absolute;
+  inset: 0;
+  content: "";
+  background:
+    linear-gradient(135deg, transparent 49.5%, rgba(188, 152, 82, 0.14) 50%, transparent 50.5%),
+    linear-gradient(45deg, transparent 49.5%, rgba(188, 152, 82, 0.12) 50%, transparent 50.5%);
+}
+
+.envelope-note {
+  position: absolute;
+  right: 7%;
+  bottom: 4.25rem;
+  left: 7%;
+  z-index: 2;
+  display: grid;
+  min-height: 11rem;
+  align-content: center;
+  justify-items: center;
+  gap: 0.42rem;
+  padding: 1.3rem 0.85rem;
+  border: 1px solid rgba(191, 154, 79, 0.25);
+  border-radius: 0.9rem;
+  color: var(--ink);
+  text-align: center;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 253, 0.92), rgba(248, 242, 229, 0.88)),
+    #fffaf1;
+  box-shadow: 0 18px 36px rgba(64, 48, 32, 0.12);
+  transform-origin: bottom center;
+}
+
+.envelope-note > span {
+  color: rgba(49, 72, 58, 0.64);
+  font-size: 0.62rem;
+  font-weight: 800;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+.envelope-note .couple-name {
+  color: var(--green);
+  gap: 0.08em;
+  font-size: clamp(1.75rem, 7.2vw, 2.45rem);
+  white-space: nowrap;
+}
+
+.envelope-note small {
+  width: min(100%, 15.5rem);
+  color: rgba(49, 72, 58, 0.64);
+  font-family: var(--font-heading);
+  font-size: 0.96rem;
+  line-height: 1.35;
+}
+
+.envelope-flap {
+  top: 0;
+  right: 0;
+  left: 0;
+  z-index: 6;
+  height: 7.35rem;
+  border-radius: 1.1rem 1.1rem 0.35rem 0.35rem;
+  background:
+    linear-gradient(180deg, rgba(255, 249, 235, 0.98), rgba(231, 213, 176, 0.94)),
+    #f4e6cc;
+  clip-path: polygon(0 0, 100% 0, 50% 100%);
+  transform-origin: top center;
+  backface-visibility: hidden;
+}
+
+.envelope-pocket {
+  bottom: 0;
+  z-index: 5;
+  height: 8.35rem;
+  background:
+    linear-gradient(135deg, rgba(255, 255, 250, 0.96), rgba(238, 223, 194, 0.96)),
+    #f7ead2;
+}
+
+.envelope-pocket-left {
+  left: 0;
+  width: 51%;
+  border-radius: 0 0 0 1.1rem;
+  clip-path: polygon(0 0, 100% 50%, 0 100%);
+}
+
+.envelope-pocket-right {
+  right: 0;
+  width: 51%;
+  border-radius: 0 0 1.1rem 0;
+  clip-path: polygon(100% 0, 0 50%, 100% 100%);
+}
+
+.envelope-pocket-bottom {
+  right: 0;
+  left: 0;
+  border-radius: 0 0 1.1rem 1.1rem;
+  clip-path: polygon(0 100%, 50% 24%, 100% 100%);
+}
+
+.envelope-seal {
+  position: absolute;
+  bottom: 4.1rem;
+  left: 50%;
+  z-index: 8;
+  display: grid;
+  width: 3.15rem;
+  height: 3.15rem;
+  place-items: center;
+  border: 1px solid rgba(119, 82, 20, 0.38);
+  border-radius: 50%;
+  color: #6f4d13;
+  font-family: var(--font-heading);
+  font-size: 0.82rem;
+  font-weight: 700;
+  background:
+    radial-gradient(circle at 30% 24%, #fff1a8, transparent 34%),
+    linear-gradient(145deg, #efd77c, #a97b22);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.58),
+    0 12px 22px rgba(134, 93, 25, 0.24);
+  transform: translateX(-50%);
+}
+
+.intro-overlay.is-open .envelope-seal {
+  animation: sealPop 0.65s ease forwards;
+}
+
 .garden-hero {
   position: relative;
   min-height: 100svh;
@@ -111,17 +368,91 @@ a {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  object-position: center;
+  object-position: center top;
   filter: saturate(0.92) contrast(0.96) brightness(0.92);
   user-select: none;
+}
+
+.garden-hero::after {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  content: "";
+  background:
+    linear-gradient(112deg, transparent 22%, rgba(255, 255, 255, 0.18) 48%, transparent 70%),
+    radial-gradient(circle at 46% 62%, rgba(255, 255, 255, 0.22), transparent 11rem);
+  mix-blend-mode: screen;
+  pointer-events: none;
+  animation: softLightSweep 8s ease-in-out infinite;
 }
 
 .garden-hero-tint {
   position: absolute;
   inset: 0;
+  z-index: 1;
   background:
     linear-gradient(180deg, rgba(237, 243, 232, 0.18), rgba(255, 255, 251, 0.18) 42%, rgba(233, 239, 229, 0.46)),
     radial-gradient(circle at center, rgba(255, 255, 255, 0.18), rgba(44, 68, 53, 0.1));
+}
+
+.scroll-envelope-section {
+  position: relative;
+  height: 155svh;
+  min-height: 52rem;
+  overflow: clip;
+  background:
+    linear-gradient(180deg, rgba(247, 250, 244, 0.88), rgba(255, 253, 248, 0.68)),
+    var(--scene-image) center/cover;
+}
+
+.scroll-envelope-section::before {
+  position: absolute;
+  inset: 0;
+  content: "";
+  background:
+    radial-gradient(circle at 48% 18%, rgba(255, 255, 255, 0.6), transparent 12rem),
+    radial-gradient(rgba(47, 90, 69, 0.08) 0.7px, transparent 0.9px);
+  background-size: auto, 4px 4px;
+  pointer-events: none;
+}
+
+.scroll-envelope-sticky {
+  position: sticky;
+  top: 0;
+  z-index: 3;
+  display: grid;
+  min-height: 100svh;
+  place-items: center;
+  padding: 5rem 1rem;
+}
+
+.scroll-envelope-scene {
+  position: relative;
+  display: grid;
+  place-items: center;
+}
+
+.scroll-envelope-scene .envelope-visual {
+  width: min(88vw, 23rem);
+}
+
+.scroll-helper {
+  position: absolute;
+  bottom: 2rem;
+  left: 50%;
+  display: inline-grid;
+  justify-items: center;
+  gap: 0.2rem;
+  color: rgba(49, 72, 58, 0.66);
+  font-size: 0.7rem;
+  font-weight: 800;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  transform: translateX(-50%);
+}
+
+.scroll-helper svg {
+  animation: arrowFloat 1.6s ease-in-out infinite;
 }
 
 .preview-ribbon {
@@ -189,7 +520,7 @@ a {
 
 .hero-invite-card h1 {
   margin: 0.85rem 0 0.3rem;
-  font-size: clamp(2.55rem, 10vw, 3.7rem);
+  font-size: clamp(2rem, 8.5vw, 3rem);
   text-shadow: 0 1px 0 rgba(255, 255, 255, 0.7);
   white-space: nowrap;
 }
@@ -615,7 +946,7 @@ a {
 .story-card-two {
   background:
     linear-gradient(rgba(255, 255, 255, 0.38), rgba(255, 255, 255, 0.38)),
-    url("/assets/istanbul-terrace-invitation.png") center/cover;
+    var(--scene-image) center/cover;
 }
 
 .final-section {
@@ -675,6 +1006,42 @@ a {
   }
 }
 
+@keyframes arrowFloat {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(0.35rem);
+  }
+}
+
+@keyframes sealPop {
+  0% {
+    opacity: 1;
+    transform: translateX(-50%) scale(1);
+  }
+
+  100% {
+    opacity: 0;
+    transform: translateX(-50%) translateY(1.2rem) scale(0.64);
+  }
+}
+
+@keyframes softLightSweep {
+  0%,
+  100% {
+    opacity: 0.38;
+    transform: translateX(-18%);
+  }
+
+  50% {
+    opacity: 0.82;
+    transform: translateX(18%);
+  }
+}
+
 @media (min-width: 720px) {
   .hero-invite-card {
     right: 1.25rem;
@@ -693,7 +1060,7 @@ a {
 
 @media (max-width: 360px) {
   .hero-invite-card h1 {
-    font-size: 2.45rem;
+    font-size: 1.95rem;
   }
 
   .tiny-divider i {
